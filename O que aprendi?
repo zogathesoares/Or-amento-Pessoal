@@ -1,0 +1,47 @@
+Estrutura de projetos em Python
+
+Criar arquivos (budget.py, README.md) organizados.
+
+Separar funções (adicionar_transacao, resumo, menu).
+
+Trabalhar com funções
+
+Criar funções reutilizáveis.
+
+Usar parâmetros e valores de retorno.
+
+Controle de fluxo e lógica de programação
+
+Estruturas condicionais (if/elif/else).
+
+Laços de repetição (while True para o menu).
+
+Validações de entrada (valor > 0, tipo correto).
+
+Manipulação de dados
+
+Listas e dicionários em Python.
+
+Agrupar e somar valores por categoria.
+
+Persistência de dados
+
+Uso de arquivos JSON para salvar e carregar transações.
+
+Serialização e desserialização de dados.
+
+Boas práticas
+
+Organização de código em funções pequenas.
+
+Uso de uuid para gerar identificadores únicos.
+
+Uso de date.today().isoformat() para registrar datas.
+
+Pensamento em produto
+
+Criar um programa com utilidade real.
+
+Estruturar menu interativo.
+
+Planejar evoluções futuras (gráficos, exportar CSV, versão web).
