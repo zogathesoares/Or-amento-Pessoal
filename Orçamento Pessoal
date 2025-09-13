@@ -1,0 +1,110 @@
+import json
+import uuid
+from datetime import date
+
+ARQUIVO = "dados_orcamento.json"
+
+
+def carregar_dados():
+    """Carrega dados do arquivo JSON."""
+    try:
+        with open(ARQUIVO, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {"transacoes": []}
+
+
+def salvar_dados(dados):
+    """Salva os dados no arquivo JSON."""
+    with open(ARQUIVO, "w", encoding="utf-8") as f:
+        json.dump(dados, f, indent=2, ensure_ascii=False)
+
+
+def adicionar_transacao(tipo, valor, categoria, descricao=""):
+    """Adiciona uma transação (receita ou despesa)."""
+    if tipo not in ("receita", "despesa"):
+        raise ValueError("O tipo deve ser 'receita' ou 'despesa'")
+    if valor <= 0:
+        raise ValueError("O valor deve ser maior que zero")
+
+    dados = carregar_dados()
+    transacao = {
+        "id": str(uuid.uuid4()),
+        "tipo": tipo,
+        "valor": float(valor),
+        "categoria": categoria,
+        "descricao": descricao,
+        "data": date.today().isoformat()
+    }
+    dados["transacoes"].append(transacao)
+    salvar_dados(dados)
+    return transacao
+
+
+def resumo():
+    """Gera resumo financeiro."""
+    dados = carregar_dados()
+    receitas = sum(t["valor"] for t in dados["transacoes"] if t["tipo"] == "receita")
+    despesas = sum(t["valor"] for t in dados["transacoes"] if t["tipo"] == "despesa")
+    saldo = receitas - despesas
+
+    # despesas por categoria
+    por_categoria = {}
+    for t in dados["transacoes"]:
+        if t["tipo"] == "despesa":
+            por_categoria.setdefault(t["categoria"], 0)
+            por_categoria[t["categoria"]] += t["valor"]
+
+    return {
+        "receitas": receitas,
+        "despesas": despesas,
+        "saldo": saldo,
+        "por_categoria": por_categoria
+    }
+
+
+def mostrar_resumo():
+    """Mostra resumo formatado."""
+    r = resumo()
+    print("\n📊 Resumo Financeiro")
+    print(f"Total de Receitas: R$ {r['receitas']:.2f}")
+    print(f"Total de Despesas: R$ {r['despesas']:.2f}")
+    print(f"Saldo: R$ {r['saldo']:.2f}")
+    print("\nDespesas por categoria:")
+    for cat, valor in r["por_categoria"].items():
+        print(f"  - {cat}: R$ {valor:.2f}")
+
+
+def menu():
+    while True:
+        print("\n===== Calculadora de Orçamento Pessoal =====")
+        print("1 - Adicionar Receita")
+        print("2 - Adicionar Despesa")
+        print("3 - Ver Resumo")
+        print("4 - Sair")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            valor = float(input("Digite o valor da receita: "))
+            categoria = input("Digite a categoria: ")
+            descricao = input("Descrição (opcional): ")
+            adicionar_transacao("receita", valor, categoria, descricao)
+            print("✅ Receita adicionada com sucesso!")
+        elif opcao == "2":
+            valor = float(input("Digite o valor da despesa: "))
+            categoria = input("Digite a categoria: ")
+            descricao = input("Descrição (opcional): ")
+            adicionar_transacao("despesa", valor, categoria, descricao)
+            print("✅ Despesa adicionada com sucesso!")
+        elif opcao == "3":
+            mostrar_resumo()
+        elif opcao == "4":
+            print("👋 Saindo...")
+            break
+        else:
+            print("⚠️ Opção inválida, tente novamente.")
+
+
+if __name__ == "__main__":
+    menu()
