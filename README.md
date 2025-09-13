@@ -1,11 +1,11 @@
-# 💰 Calculadora de Orçamento Pessoal
+# Calculadora de Orçamento Pessoal
 
 Este projeto é uma **calculadora de orçamento pessoal em Python**.  
 Permite registrar **receitas** e **despesas**, categorizá-las e visualizar um resumo financeiro.
 
 ---
 
-## 🚀 Funcionalidades
+## Funcionalidades
 - Adicionar receitas (ex: salário, freelas).
 - Adicionar despesas (ex: alimentação, transporte).
 - Categorizar as transações.
@@ -18,7 +18,7 @@ Permite registrar **receitas** e **despesas**, categorizá-las e visualizar um r
 
 ---
 
-## 📦 Como usar
+## Como usar
 
 1. Clone o repositório:
    ```bash
